@@ -12,6 +12,7 @@ import {
   Input
 } from 'reactstrap';
 import { FaTimes } from 'react-icons/fa';
+import EmptyTodo from './components/EmptyTodo';
 
 type FormElem = React.FormEvent<HTMLFormElement>
 
@@ -113,13 +114,7 @@ const App: React.FC = () => {
                     </Row>
                   </Container>
                 )
-              : <Container className="h-75">
-                  <Row className="h-100 justify-content-center align-items-center">
-                    <Col md="10" className="h-100 w-100 mt-3 bg-light border rounded d-flex justify-content-center align-items-center">
-                      <h6>Todo list is Empty !</h6>
-                    </Col>
-                  </Row>
-                </Container>
+              : <EmptyTodo />
             }
           </Col>
         </Row>
