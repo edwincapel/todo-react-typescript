@@ -25,15 +25,25 @@ const App: React.FC = () => {
 
   const handleSubmit = (e: FormElem):void => {
     e.preventDefault()
-    addTodo(value)
-    setValue('')
+    if (value=="") {
+      console.log("todo item cannot be empty");
+    }
+    else{
+      addTodo(value)
+      setValue('')
+    }
   }
 
   const addTodo = (text: string): void => {
     const newTodo: ITodo[] = [...todo, {text, complete: false}]
     setTodo(newTodo)
   }
-  console.log(todo);
+
+  const completeTodo = (index: number) => {
+    const newTodo: ITodo[] = [...todo]
+    newTodo[index].complete = !newTodo[index].complete
+    setTodo(newTodo)
+  }
   
   return (
     <>
@@ -50,7 +60,7 @@ const App: React.FC = () => {
                   type="text" 
                   name="newTodo" 
                   id="newTodo" 
-                  placeholder="add New Item here"
+                  placeholder="example: Do laundry"
                   value={value}
                   onChange={ e => setValue(e.target.value)}
                  />
@@ -59,7 +69,41 @@ const App: React.FC = () => {
             </Form>
           </Col>
           <Col md="6" className="border-left">
-          
+            <h2 className="text-center mt-3">My Todo List</h2>
+            {
+              todo.length > 0 
+              ? todo.map(( todo: ITodo, index: number) =>
+                  <Container key={index}>
+                    <Row className="d-flex justify-content-center align-item-center">
+                      <Col md="10">
+                        <div className="w-100 bg-light border rounded d-flex align-items-center justify-content-between mb-1" style={{height:"50px"}}>
+                          <p
+                            className="ml-3 mb-0"
+                            style={{textDecoration: todo.complete ? 'line-through': ''}}
+                          >
+                            {todo.text}
+                          </p>
+                          <Button
+                            size="sm"
+                            type='button'
+                            onClick={() => completeTodo(index)}
+                            className="mr-3"
+                          >
+                            {todo.complete ? 'Incomplete' : 'Complete'}
+                          </Button>
+                        </div>
+                      </Col>
+                    </Row>
+                  </Container>
+                )
+              : <Container className="h-75">
+                  <Row className="h-100 justify-content-center align-items-center">
+                    <Col md="10" className="h-100 w-100 mt-3 bg-light border rounded d-flex justify-content-center align-items-center">
+                      <h6>Todo list is Empty !</h6>
+                    </Col>
+                  </Row>
+                </Container>
+            }
           </Col>
         </Row>
       </Container>
