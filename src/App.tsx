@@ -11,6 +11,7 @@ import {
   Label, 
   Input
 } from 'reactstrap';
+import { FaTimes } from 'react-icons/fa';
 
 type FormElem = React.FormEvent<HTMLFormElement>
 
@@ -42,6 +43,12 @@ const App: React.FC = () => {
   const completeTodo = (index: number) => {
     const newTodo: ITodo[] = [...todo]
     newTodo[index].complete = !newTodo[index].complete
+    setTodo(newTodo)
+  }
+
+  const removeTodo = (index:number): void => {
+    const newTodo: ITodo[] = [...todo]
+    newTodo.splice(index,1)
     setTodo(newTodo)
   }
   
@@ -83,14 +90,24 @@ const App: React.FC = () => {
                           >
                             {todo.text}
                           </p>
-                          <Button
-                            size="sm"
-                            type='button'
-                            onClick={() => completeTodo(index)}
-                            className="mr-3"
-                          >
-                            {todo.complete ? 'Incomplete' : 'Complete'}
-                          </Button>
+                          <div>
+                            <Button
+                              size="sm"
+                              type='button'
+                              onClick={() => completeTodo(index)}
+                              className="mr-1"
+                            >
+                              {todo.complete ? 'Incomplete' : 'Complete'}
+                            </Button>
+                            <Button
+                              type='button'
+                              size="sm"
+                              onClick={() => removeTodo(index)}
+                              className="mr-3"
+                            >
+                              <FaTimes />
+                            </Button>
+                          </div>
                         </div>
                       </Col>
                     </Row>
